@@ -1,2 +1,2 @@
-# lean-modal
-Modal logic library for Lean Prover - MIT 24.711 term project
+This is a library for writing modal logic proofs in the Lean programming
+language.
