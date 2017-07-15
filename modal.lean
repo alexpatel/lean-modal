@@ -2,11 +2,7 @@ import init.logic
 
 namespace modal
   universe u
-
-  -- world type
   variable world : Type u
-
-  -- world accessibility relation
   variable rel : world → world → Prop
 
   -- modal connectives
@@ -25,17 +21,15 @@ namespace modal
   def mequiv (p₁ p₂ : world → Prop) (w : world) : Prop := (p₁ w) ↔ (p₂ w)
     notation p `m↔` q:= p mequiv q
 
-  def meq (p₁ p₂ : world → Prop) (w : world) : Prop := (p₁ w) ↔ (p₂ w)
-    notation p `m↔` q:= p meq q
+  def meq (p₁ p₂ : world → Prop) (w : world) : Prop := (p₁ w) = (p₂ w)
+    notation p `m=` q:= p meq q
 
   -- modal quantifiers
-  variable mquanttype : ()
+  def mall {α : Type u} (p: α → world → Prop) (w : world) : Prop := ∀ x : α, p x w
+    notation `m∀` x, p := mall p x
 
-  def mall (α : Type) (p : α → world → Prop) (w : world) : Prop := ∀ x : α, p x w
-    notation x `m∀` p := mall λ x , p x
-
-  def mexists (p : world → Prop) (w : world) : Prop := =]xi x : α, p x w
-    notation `m∃` x p := mexists λ x, p x
+  def mexists {α : Type u} (p: α → world → Prop) (w : world) : Prop := ∃ x : α, p x w
+    notation `m∃` x, p := mexists p x
 
   notation `□` := nat
   notation `♢` := nat
