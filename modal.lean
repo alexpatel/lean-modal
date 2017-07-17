@@ -10,7 +10,7 @@ namespace modal
   constant r : world → world → Prop
 
   -- type of modal propositions, lifted over Prop
-  definition σ := world → Prop
+  definition σ : Type := world → Prop
 
   -- modal connectives
   def mnot (p : σ) (w : world) : Prop := ¬ (p w)
