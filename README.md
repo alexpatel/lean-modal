@@ -10,3 +10,4 @@ language.
 - ["Interacting with Modal Logics in the Coq Proof Assistant"](http://page.mi.fu-berlin.de/cbenzmueller/papers/C44.pdf)
 - [*Lean Prover - Logic and Proof*](https://leanprover.github.io/logic_and_proof/logic_and_proof.pdf)
 - [*Theorem Proving in Lean](https://leanprover.github.io/theorem_proving_in_lean/theorem_proving_in_lean.pdf)
+- ["Labelled Deductive Systems: A Position Paper"](https://projecteuclid.org/download/pdf_1/euclid.lnl/1235423708)

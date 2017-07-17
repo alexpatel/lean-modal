@@ -2,36 +2,54 @@ import init.logic
 
 namespace modal
   universe u
-  variable world : Type u
-  variable rel : world → world → Prop
+
+  -- type of worlds
+  constant world : Type u
+
+  -- accessibility relation
+  constant r : world → world → Prop
+
+  -- type of modal propositions, lifted over Prop
+  definition σ := world → Prop
 
   -- modal connectives
-  def mnot (p : world → Prop) (w : world) : Prop := ¬ (p w)
-    notation `m¬` p := mnot p
-
-  def mand (p₁ p₂ : world → Prop) (w : world) : Prop := p₁ w ∧ p₂ w
-    notation p `m∧` q:= p mand q
-
-  def mor (p₁ p₂ : world → Prop) (w : world) : Prop := p₁ w ∨ p₂ w
-    notation p `m∨` q:= p mor q
-
-  def mimplies (p₁ p₂ : world → Prop) (w : world) : Prop := (p₁ w) → (p₂ w)
-    notation p `m→` q:= p mimplies q
-
-  def mequiv (p₁ p₂ : world → Prop) (w : world) : Prop := (p₁ w) ↔ (p₂ w)
-    notation p `m↔` q:= p mequiv q
-
-  def meq (p₁ p₂ : world → Prop) (w : world) : Prop := (p₁ w) = (p₂ w)
-    notation p `m=` q:= p meq q
+  def mnot (p : σ) (w : world) : Prop := ¬ (p w)
+  def mand (p₁ p₂ : σ) (w : world) : Prop := p₁ w ∧ p₂ w
+  def mor (p₁ p₂ : σ) (w : world) : Prop := p₁ w ∨ p₂ w
+  def mimplies (p₁ p₂ : σ) (w : world) : Prop := (p₁ w) → (p₂ w)
+  def mequiv (p₁ p₂ : σ) (w : world) : Prop := (p₁ w) ↔ (p₂ w)
 
   -- modal quantifiers
-  def mall {α : Type u} (p: α → world → Prop) (w : world) : Prop := ∀ x : α, p x w
-    notation `m∀` x, p := mall p x
+  def mall {α : Type u} (p: α → σ) (w : world) : Prop := ∀ x : α, p x w
+  def mexists {α : Type u} (p: α → σ) (w : world) : Prop := ∃ x : α, p x w
 
-  def mexists {α : Type u} (p: α → world → Prop) (w : world) : Prop := ∃ x : α, p x w
-    notation `m∃` x, p := mexists p x
+  -- modal operators
+  def mbox (p : σ) := λ w₁ : world, ∀ w₂ : world, (r w₁ w₂) → (p w₂)
+  def mdia (p : σ) := λ w₁ : world, ∃ w₂ : world, (r w₁ w₂) ∧  (p w₂)
 
-  notation `□` := nat
-  notation `♢` := nat
+  -- validity
+  def mvalid (p : σ) := ∀ w : world, p w
+
+  -- notation mirroring standard operators/quantifiers
+  notation `m¬` p := mnot p
+  notation p `m∧` q:= p mand q
+  notation p `m∨` q:= p mor q
+  notation p `m→` q:= p mimplies q
+  notation p `m↔` q:= p mequiv q
+  notation `m∀` x, p := mall (λ x, p)
+  notation `m∃` x, p := mexists (λ x, p)
+  notation `m∃` x, p := mexists (λ x, p)
+  notation `□` p := mbox p
+  notation `♢` p := mdia p
+  notation `[` p `]` := mvalid p
+
+  variables p q : σ
+  #check mnot p
+  #check mand p q
+  #check mor p q
+  #check mimplies p q
+  #check mequiv p q
+  #check □p
+  #check ♢p
 
 end modal
