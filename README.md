@@ -2,6 +2,9 @@ This is a library for writing modal logic proofs in the Lean programming
 language.
 
 # References
+- ["Introduction to the Calculus of Inductive Constructions"](https://hal.inria.fr/hal-01094195/file/CIC.pdf)
+- [The QMLTP Library: Benchmarking Theorem Provers for First-Order Modal Logics](http://www.iltp.de/qmltp/)
+- ["Implementing and Evaluating Provers for First-Order Modal Logics"](https://page.mi.fu-berlin.de/cbenzmueller/papers/C34.pdf)
 - ["Quantified Multimodal Logics in Simple Type Theory"](https://arxiv.org/abs/0905.2435)
 - ["Godel's God in Isabelle/HOL (Source)"](https://www.isa-afp.org/entries/GoedelGod.shtml)
 - ["Godel's God in Isabelle/HOL"](https://pdfs.semanticscholar.org/1405/8ca810f6180c25183a936316aea0b4098e88.pdf)

@@ -1,16 +1,16 @@
-import init.logic
-
 namespace modal
+  open classical
+
   universe u
 
-  -- type of worlds
-  constant world : Type u
+  -- possible world type
+  variable {world : Type u}
 
-  -- accessibility relation
-  constant r : world → world → Prop
+  -- accessibility relation type
+  variable {r : world → world → Prop}
 
-  -- type of modal propositions, lifted over Prop
-  definition σ : Type := world → Prop
+  -- modal proposition type
+  def σ : Type u := world → Prop
 
   -- modal connectives
   def mnot (p : σ) (w : world) : Prop := ¬ (p w)
@@ -32,24 +32,47 @@ namespace modal
 
   -- notation mirroring standard operators/quantifiers
   notation `m¬` p := mnot p
-  notation p `m∧` q:= p mand q
-  notation p `m∨` q:= p mor q
-  notation p `m→` q:= p mimplies q
-  notation p `m↔` q:= p mequiv q
+  infix `m∧`:50 := mand
+  infix `m∨`:50 := mor
+  infix `m→`:50 := mimplies
+  infix `m↔`:50 := mequiv
   notation `m∀` x, p := mall (λ x, p)
-  notation `m∃` x, p := mexists (λ x, p)
   notation `m∃` x, p := mexists (λ x, p)
   notation `□` p := mbox p
   notation `♢` p := mdia p
   notation `[` p `]` := mvalid p
 
-  variables p q : σ
-  #check mnot p
-  #check mand p q
-  #check mor p q
-  #check mimplies p q
-  #check mequiv p q
-  #check □p
-  #check ♢p
-
+  #check σ
+  #check mnot
+  #check mand
+  #check mor
+  #check mimplies
+  #check mequiv
+  #check mall
+  #check mexists
+  #check mbox
+  #check mdia
+  #check mvalid
 end modal
+
+namespace test
+  open modal
+  #check mnot
+  #check σ
+
+  universe v
+  constants w₁ α : Type v
+  constant r₁ : w₁ → w₁ → w₁
+  constants p q : w₁ → Prop
+
+  #check m¬ p
+  #check p m∧ q
+  #check p m→ q
+  #check p m↔ q
+  #check □  p
+  #check ♢ p
+  #check ∀ w, p w
+  #check ∀ w : w₁, p w
+  #check ∃ w, p w
+  #check ∃ w : w₁, p w
+end test
