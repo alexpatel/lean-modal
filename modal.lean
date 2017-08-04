@@ -9,8 +9,13 @@ namespace modal
   -- accessibility relation type
   variable {r : world → world → Prop}
 
-  -- modal proposition type
+  -- modal proposition type, lifted over Prop
+  -- a predicate saying whether a given proposition is true in a particular world
   def σ : Type u := world → Prop
+
+  -- true, false
+  def mtop := λ w : world, true
+  def mbot := λ w : world, false
 
   -- modal connectives
   def mnot (p : σ) (w : world) : Prop := ¬ (p w)
@@ -62,17 +67,51 @@ namespace test
 
   universe v
   constants w₁ α : Type v
-  constant r₁ : w₁ → w₁ → w₁
+  constant r₁ : w₁ → w₁ → Prop
   constants p q : w₁ → Prop
 
   #check m¬ p
   #check p m∧ q
   #check p m→ q
   #check p m↔ q
-  #check □  p
+  #check □ p
   #check ♢ p
   #check ∀ w, p w
   #check ∀ w : w₁, p w
   #check ∃ w, p w
   #check ∃ w : w₁, p w
+
+  axiom r_reflex : ∀ w, r₁ w w
+  axiom r_trans : ∀ x y z : w₁, (r₁ x y) → (r₁ y z) → (r₁ x z)
+  axiom r_symm : ∀ x y : w₁, (r₁ x y) → (r₁ y x)
+
+  #check r_reflex
+  #check r_trans
+  #check r_trans
 end test
+
+namespace exmp
+  open modal
+  constants world : Type
+  constant r : world → world → Prop
+  constants p q : world → Prop
+  variables x₁ x₂ x₃ x₄ x₅ x₆ : world
+
+  axiom kripe_example :
+      (r x₁ x₂) ∧ (r x₁ x₃) ∧ (r x₂ x₃) ∧ (r x₃ x₂)
+      ∧ (r x₂ x₃) ∧ (r x₃ x₃) ∧ (r x₂ x₂)
+      ∧ (r x₃ x₃) ∧ (r x₅ x₄) ∧ (r x₅ x₆)
+      ∧ ¬ (p x₁) ∧ (q x₁)
+      ∧ (p x₂) ∧ (q x₂)
+      ∧ (p x₃) ∧ ¬ (q x₃)
+      ∧ ¬ (p x₄) ∧ (q x₄) 
+      ∧ ¬ (p x₅) ∧ ¬ (q x₅) 
+      ∧ (p x₆) ∧ ¬ (q x₆)
+
+  #check mdia
+  #check (mdia p) x₁ 
+  #check (♢ p) x₁ 
+  theorem test_1 : p x₁ := sorry
+  theorem test_2 : ∀ w : world, p w := sorry
+  theorem test_3 : ∃ w : world, p w := sorry
+end exmp
