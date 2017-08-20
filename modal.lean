@@ -76,7 +76,7 @@ namespace test
   #check p m↔ q
   #check □ p
   #check ♢ p
-  #check ∀ w, p w
+  #check m∀ w, p w
   #check ∀ w : w₁, p w
   #check ∃ w, p w
   #check ∃ w : w₁, p w
@@ -93,6 +93,7 @@ end test
 namespace exmp
   open modal
   constants world : Type
+  constant M : world → Prop
   constant r : world → world → Prop
   constants p q : world → Prop
   variables x₁ x₂ x₃ x₄ x₅ x₆ : world
@@ -111,7 +112,15 @@ namespace exmp
   #check mdia
   #check (mdia p) x₁ 
   #check (♢ p) x₁ 
-  theorem test_1 : p x₁ := sorry
-  theorem test_2 : ∀ w : world, p w := sorry
-  theorem test_3 : ∃ w : world, p w := sorry
+  theorem prop_1 : p x₁ := sorry
+  theorem forall_1 : ∀ w : world, p w := sorry
+  theorem exists_1 : ∃ w : world, p w := sorry
+
+  -- test diamond
+  theorem dia_1 : ∃ w₂ : world, (r x₁ w₂) ∧  (p w₂)
+  theorem dia_2 : (♢ p) x₁ := sorry  -- why does this not work...
+
+  -- test box
+  theorem box_1 : ∀ w₂ : world, (r x₁ w₂) → (p w₂)
+  theorem box_1 : (□ p) x₁ := sorry  -- why does this not work...
 end exmp
